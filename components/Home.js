@@ -18,7 +18,7 @@ class Home extends React.Component{
         <View style={styles.view}>
           <View style={styles.container_img}>
             <Image source={require('./images/logo.png')} style={styles.logo} />
-            <Text style={styles.title}>WEATHER APP</Text>
+            <Text style={styles.title}>Weather Guide</Text>
           </View>
         </View>
     )
@@ -42,10 +42,10 @@ const styles = StyleSheet.create({
   },
   title : {
     marginTop: 20,
-    fontSize : 20,
+    fontSize : 40,
     fontWeight: 'bold',
-    color: colors.thirdColorConst,
-    fontFamily: "Roboto-Regular",
+    color: '#FFF',
+    fontFamily: "Roboto-Bold",
   }
 });
 
