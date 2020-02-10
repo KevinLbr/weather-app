@@ -23,7 +23,7 @@ class Home extends React.Component {
 
                     <Image source={require('./images/logo.png')} style={styles.logo}/>
                     <Text style={styles.title}>Weather Guide</Text>
-                    <Text style={styles.text}>Forecast & widgets</Text>
+                    <Text style={styles.text}>Forecast & Widgets</Text>
                 </View>
               <View style={styles.container_intro}>
               </View>
