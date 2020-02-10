@@ -9,9 +9,19 @@
 import React from 'react';
 
 import {StyleSheet, View, Text, Image} from 'react-native';
+import {createStackNavigator} from 'react-navigation-stack';
+import { createAppContainer } from 'react-navigation';
 import stylesApp, {colors} from '../Style';
+import Summary from './Summary';
+import NavigationSummary from './NavigationSummary';
 
 class Home extends React.Component {
+
+    constructor(props) {
+        super(props);
+
+        setTimeout(() => {this.props.navigation.navigate('NavigationSummary')}, 1000);
+    }
 
     render() {
         return (
@@ -31,6 +41,23 @@ class Home extends React.Component {
         );
     }
 }
+
+const navigationOptions =  {
+    headerShown: false, // hide header
+}
+
+const Stack = createStackNavigator(
+    {
+        NavigationSummary: {screen: NavigationSummary, navigationOptions},
+        Home: {screen: Home, navigationOptions},
+    },
+    {
+        initialRouteName: 'Home',
+    }
+);
+
+
+export default createAppContainer(Stack);
 
 const styles = StyleSheet.create({
     view: {
@@ -67,6 +94,3 @@ const styles = StyleSheet.create({
         fontFamily: 'Roboto-Bold',
     },
 });
-
-
-export default Home;
