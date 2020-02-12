@@ -12,7 +12,6 @@ import {StyleSheet, View, Text, Image} from 'react-native';
 import {createStackNavigator} from 'react-navigation-stack';
 import { createAppContainer } from 'react-navigation';
 import stylesApp, {colors} from '../Style';
-import Summary from './Summary';
 import NavigationSummary from './NavigationSummary';
 
 class Home extends React.Component {
@@ -30,7 +29,6 @@ class Home extends React.Component {
                 <Text style={styles.text}>Welcome to</Text>
               </View>
                 <View style={styles.container_img}>
-
                     <Image source={require('./images/logo.png')} style={styles.logo}/>
                     <Text style={styles.title}>Weather Guide</Text>
                     <Text style={styles.text}>Forecast & Widgets</Text>
