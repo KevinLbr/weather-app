@@ -16,7 +16,7 @@ import {
     Button,
     ImageBackground,
     TouchableHighlight,
-    TouchableOpacity,
+    TouchableOpacity, Animated,
 } from 'react-native';
 import stylesApp, {colors} from '../Style';
 import BottomComponent from './BottomComponent';
@@ -28,7 +28,27 @@ class Summary extends React.Component {
 
         this.state = {
             bottomComponentIsOpen : false,
+            flexMainComponent : new Animated.Value(0),
+            flexMainComponentHeight : new Animated.Value(0),
         }
+    }
+
+    componentDidMount() {
+        Animated.timing(
+            this.state.flexMainComponent,
+            {
+                toValue: 2,
+                duration: 1,
+            },
+        ).start();
+
+        Animated.timing(
+            this.state.flexMainComponentHeight,
+            {
+                toValue: 0,
+                duration: 1,
+            },
+        ).start();
     }
 
     _onPressButton() {
@@ -40,7 +60,26 @@ class Summary extends React.Component {
     };
 
     toggleBottomComponent = () => {
-        this.setState({bottomComponentIsOpen : this.state.bottomComponentIsOpen == true ? false : true})
+        this.setState({bottomComponentIsOpen : this.state.bottomComponentIsOpen == true ? false : true});
+
+        var flex = this.state.bottomComponentIsOpen ? 0 : 2;
+        var height = this.state.bottomComponentIsOpen ? 0 : 1;
+
+        Animated.timing(
+            this.state.flexMainComponent,
+            {
+                toValue: flex,
+                duration: 500,
+            },
+        ).start();
+
+        Animated.timing(
+            this.state.flexMainComponentHeight,
+            {
+                toValue: height,
+                duration: 500,
+            },
+        ).start();
     }
 
     render() {
@@ -61,7 +100,7 @@ class Summary extends React.Component {
                     </View>
                 </View>
 
-                <View style={this.state.bottomComponentIsOpen ? styles.bottomComponentIsOpen : styles.bottomComponentIsClosed}>
+                <Animated.View style={{flex : this.state.flexMainComponent, height : this.state.flexMainComponentHeight}}>
                     <View style={styles.flex}>
                         <View style={styles.container_img}>
                             <Image resizeMode='contain' style={styles.tmp_img} source={require('./images/cloud.png')}/>
@@ -98,7 +137,7 @@ class Summary extends React.Component {
                             />
                         </TouchableHighlight>
                     </View>
-                </View>
+                </Animated.View>
 
                 <BottomComponent toggleBottomComponent={this.toggleBottomComponent}></BottomComponent>
             </ImageBackground>

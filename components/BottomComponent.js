@@ -14,8 +14,6 @@ export default class BottomComponent extends Component {
     constructor(props) {
         super(props);
 
-        console.log(props)
-
         this.state = {
             changeHeight: new Animated.Value(0),
         };
