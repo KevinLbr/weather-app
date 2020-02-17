@@ -8,13 +8,27 @@
 
 import React from 'react';
 
-import {StyleSheet, View, Text, Image, Button, ImageBackground, TouchableHighlight, TouchableOpacity} from 'react-native';
+import {
+    StyleSheet,
+    View,
+    Text,
+    Image,
+    Button,
+    ImageBackground,
+    TouchableHighlight,
+    TouchableOpacity,
+} from 'react-native';
 import stylesApp, {colors} from '../Style';
+import BottomComponent from './BottomComponent';
 
 class Summary extends React.Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
+
+        this.state = {
+            bottomComponentIsOpen : false,
+        }
     }
 
     _onPressButton() {
@@ -23,6 +37,10 @@ class Summary extends React.Component {
 
     _openDrawerNavigation = () => {
         this.props.navigation.openDrawer();
+    };
+
+    toggleBottomComponent = () => {
+        this.setState({bottomComponentIsOpen : this.state.bottomComponentIsOpen == true ? false : true})
     }
 
     render() {
@@ -34,7 +52,7 @@ class Summary extends React.Component {
                             <TouchableOpacity onPress={this._openDrawerNavigation}>
                                 <Image resizeMode='contain' style={styles.menu} source={require('./images/menu.png')}/>
                             </TouchableOpacity>
-                            </View>
+                        </View>
 
                         <Text style={[styles.white, styles.name]}>Alberta</Text>
                     </View>
@@ -43,47 +61,59 @@ class Summary extends React.Component {
                     </View>
                 </View>
 
-                <View style={styles.flex}>
-                    <View style={styles.container_img}>
-                        <Image resizeMode='contain' style={styles.tmp_img} source={require('./images/cloud.png')}/>
-                    </View>
+                <View style={this.state.bottomComponentIsOpen ? styles.bottomComponentIsOpen : styles.bottomComponentIsClosed}>
+                    <View style={styles.flex}>
+                        <View style={styles.container_img}>
+                            <Image resizeMode='contain' style={styles.tmp_img} source={require('./images/cloud.png')}/>
+                        </View>
 
-                    <View style={styles.container_center}>
-                        <Text style={[styles.white, styles.text, styles.tmp]}>
-                            -7°
-                        </Text>
+                        <View style={styles.container_center}>
+                            <Text style={[styles.white, styles.text, styles.tmp]}>
+                                -7°
+                            </Text>
 
-                        <Text style={[styles.white, styles.text, styles.line_height]}>Foggy weather</Text>
+                            <Text style={[styles.white, styles.text, styles.line_height]}>Foggy weather</Text>
 
                             <Text style={[styles.white, styles.text]}>
                                 <Text style={styles.text_variable_tmp}>
                                     68°/56
                                 </Text>
 
-                                <Image style={styles.tint_img} resizeMode='contain' source={require('./images/tint.png')}/>
+                                <Image style={styles.tint_img} resizeMode='contain'
+                                       source={require('./images/tint.png')}/>
                                 0%
                             </Text>
+                        </View>
+
+                        <View style={styles.container_img}>
+                        </View>
                     </View>
 
-                    <View style={styles.container_img}>
+                    <View style={styles.container_btn}>
+                        <TouchableHighlight style={styles.btn} onPress={this._onPressButton}>
+                            <Button
+                                color={colors.primaryColorConst}
+                                title="+"
+                                onPress={() => this._onPressButton}
+                            />
+                        </TouchableHighlight>
                     </View>
                 </View>
 
-                <View style={styles.container_btn}>
-                    <TouchableHighlight style={styles.btn} onPress={this._onPressButton}>
-                        <Button
-                            color={colors.primaryColorConst}
-                            title="+"
-                            onPress={() => this._onPressButton}
-                        />
-                    </TouchableHighlight>
-                </View>
+                <BottomComponent toggleBottomComponent={this.toggleBottomComponent}></BottomComponent>
             </ImageBackground>
         );
     }
 }
 
 const styles = StyleSheet.create({
+    bottomComponentIsOpen : {
+        flex : 0,
+        height : 0
+    },
+    bottomComponentIsClosed : {
+        flex: 2
+    },
     view: {
         right: 0,
         marginTop: 40,
@@ -104,8 +134,8 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
     },
-    line_height : {
-      lineHeight : 30
+    line_height: {
+        lineHeight: 30,
     },
     name: {
         fontFamily: 'Roboto',
@@ -126,7 +156,7 @@ const styles = StyleSheet.create({
     container_btn: {
         textAlign: 'right',
         flex: 1,
-        justifyContent : 'flex-end',
+        justifyContent: 'flex-end',
         alignItems: 'flex-end',
         marginRight: 50,
         marginBottom: 50,
@@ -151,8 +181,8 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
     },
-    text_variable_tmp : {
-      // paddingRight: 10
+    text_variable_tmp: {
+        // paddingRight: 10
     },
     tint_img: {
         width: 15,
