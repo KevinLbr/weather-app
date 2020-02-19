@@ -37,7 +37,7 @@ class Summary extends React.Component {
         Animated.timing(
             this.state.flexMainComponent,
             {
-                toValue: 2,
+                toValue: 1,
                 duration: 1,
             },
         ).start();
@@ -62,7 +62,7 @@ class Summary extends React.Component {
     toggleBottomComponent = () => {
         this.setState({bottomComponentIsOpen : this.state.bottomComponentIsOpen == true ? false : true});
 
-        var flex = this.state.bottomComponentIsOpen ? 0 : 2;
+        var flex = this.state.bottomComponentIsOpen ? 1 : 0;
         var height = this.state.bottomComponentIsOpen ? 0 : 1;
 
         Animated.timing(

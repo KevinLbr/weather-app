@@ -122,7 +122,6 @@ let styles = StyleSheet.create({
     },
     content_tabs: {
         flex: 3,
-        // backgroundColor : '#FFF'
     },
     tabs: {
         padding: 0,
