@@ -27,10 +27,10 @@ export default class Today extends Component {
                 {key: 'evening', name: 'Evening', img: require('../images/cloud-sun.png'), temp: '-5°C'},
             ],
             hourly_data: [
-                {key: "5", name: '5 PM', img: require('../images/cloud.png'), temp: '-8°C'},
-                {key: "6", name: '6 PM', img: require('../images/cloud-showers-heavy.png'), temp: '-5°C'},
-                {key: "7", name: '7 PM', img: require('../images/cloud-sun-rain.png'), temp: '-4°C'},
-                {key: "8", name: '8 PM', img: require('../images/cloud-sun.png'), temp: '-4°C'},
+                {key: '5', name: '5 PM', img: require('../images/cloud.png'), temp: '-8°C'},
+                {key: '6', name: '6 PM', img: require('../images/cloud-showers-heavy.png'), temp: '-5°C'},
+                {key: '7', name: '7 PM', img: require('../images/cloud-sun-rain.png'), temp: '-4°C'},
+                {key: '8', name: '8 PM', img: require('../images/cloud-sun.png'), temp: '-4°C'},
             ],
         };
     }
@@ -76,17 +76,21 @@ export default class Today extends Component {
                 <FlatList data={this.state.hourly_data} contentContainerStyle={styles.hourly_flat_list}
                           renderItem={({item}) => (
                               <View style={styles.container_hourly_flat_list}>
-                                  <Text style={styles.item_hourly_list_temp}>{item.name}</Text>
+                                  <View style={styles.item_hourly_list_temp}>
+                                      <Text style={styles.item_hourly_list_temp_txt}>{item.name}</Text>
+                                  </View>
 
                                   <View style={styles.container_temp_hourly_list}>
-                                      <Image resizeMode='contain' style={styles.item_hourly_list_img}
-                                             source={item.img}/>
-                                      <Text style={styles.item_list_temp}>{item.temp}</Text>
+                                      <View>
+                                          <Image resizeMode='contain' style={styles.item_hourly_list_img}
+                                                 source={item.img}/>
+                                      </View>
+                                      <View>
+                                          <Text style={styles.item_list_temp}>{item.temp}</Text>
+                                      </View>
                                   </View>
                               </View>)}
                 />
-
-                <Text style={styles.title_extended}>MORE</Text>
             </View>
         );
     };
@@ -115,18 +119,29 @@ export default class Today extends Component {
 let styles = StyleSheet.create({
     container_hourly_flat_list: {
         flex: 1,
-        margin: 10,
-        flexDirection: 'row',
+        padding: 15,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     item_hourly_list_img: {
         height: 20,
         width: 20,
     },
-    container_temp_hourly_list: {},
-    item_hourly_list_temp: {
+    container_temp_hourly_list: {
+        paddingTop: 10,
+        flex: 1,
+        justifyContent : 'center',
+        flexDirection: 'row',
+    },
+    item_hourly_list_temp: {},
+    item_hourly_list_temp_txt: {
+        fontFamily : 'Roboto',
+        fontSize : 17,
         color: 'rgba(255,255,255,0.65)',
     },
     title_hourly: {
+        paddingTop : 10,
+        paddingBottom : 10,
         fontSize: 20,
         fontFamily: 'Roboto',
         color: '#FFF',
@@ -140,6 +155,7 @@ let styles = StyleSheet.create({
     hourly_flat_list: {
         flex: 1,
         alignItems: 'center',
+        justifyContent: 'center',
         flexDirection: 'row',
     },
     container_extended: {
@@ -177,6 +193,8 @@ let styles = StyleSheet.create({
         color: '#FFF',
     },
     item_list_temp: {
+        paddingBottom : 15,
+        paddingLeft : 10,
         textAlign: 'right',
         fontSize: 20,
         fontFamily: 'Roboto',
