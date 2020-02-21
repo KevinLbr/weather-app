@@ -93,7 +93,7 @@ export default class BottomComponent extends Component {
                         </View>
 
                         <View style={styles.content_tabs}>
-                            {this.state.active_tab == 1 ? <Today></Today> : null}
+                            {this.state.active_tab == 1 ? <Today bottomComponentIsOpen={this.props.bottomComponentIsOpen}></Today> : null}
                             {this.state.active_tab == 2 ? <Forecast></Forecast> : null}
                             {this.state.active_tab == 3 ? <Precipitation></Precipitation> : null}
                             {this.state.active_tab == 4 ? <Radar></Radar> : null}

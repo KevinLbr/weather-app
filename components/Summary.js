@@ -139,7 +139,10 @@ class Summary extends React.Component {
                     </View>
                 </Animated.View>
 
-                <BottomComponent toggleBottomComponent={this.toggleBottomComponent}></BottomComponent>
+                <BottomComponent
+                    toggleBottomComponent={this.toggleBottomComponent}
+                    bottomComponentIsOpen={this.state.bottomComponentIsOpen}>
+                </BottomComponent>
             </ImageBackground>
         );
     }
