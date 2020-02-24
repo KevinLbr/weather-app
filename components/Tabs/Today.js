@@ -23,13 +23,13 @@ export default class Today extends Component {
             globale_data: [
                 {key: 'noon', name: 'Noon', img: require('../images/cloud.png'), temp: '-8°C'},
                 {key: 'morning', name: 'Morning', img: require('../images/cloud-showers-heavy.png'), temp: '-4°C'},
-                {key: 'day', name: 'Day', img: require('../images/cloud-sun-rain.png'), temp: '-3°C'},
+                {key: 'day', name: 'Day', img: require('../images/cloud-sun-2.png'), temp: '-3°C'},
                 {key: 'evening', name: 'Evening', img: require('../images/cloud-sun.png'), temp: '-5°C'},
             ],
             hourly_data: [
                 {key: '5', name: '5 PM', img: require('../images/cloud.png'), temp: '-8°C'},
                 {key: '6', name: '6 PM', img: require('../images/cloud-showers-heavy.png'), temp: '-5°C'},
-                {key: '7', name: '7 PM', img: require('../images/cloud-sun-rain.png'), temp: '-4°C'},
+                {key: '7', name: '7 PM', img: require('../images/cloud-sun-2.png'), temp: '-4°C'},
                 {key: '8', name: '8 PM', img: require('../images/cloud-sun.png'), temp: '-4°C'},
             ],
         };
@@ -41,8 +41,12 @@ export default class Today extends Component {
                       renderItem={({item}) => (
                           <View style={styles.view_list}>
                               <Text style={styles.item_list_name}>{item.name}</Text>
-                              <Image resizeMode='contain' style={styles.item_list_img} source={item.img}/>
-                              <Text style={styles.item_list_temp}>{item.temp}</Text>
+                              <View style={styles.item_list_img_container}>
+                                <Image resizeMode='contain' style={styles.item_list_img} source={item.img}/>
+                              </View>
+                              <View style={styles.item_list_temp}>
+                                <Text style={styles.item_list_temp_txt}>{item.temp}</Text>
+                              </View>
                           </View>)}
             />
         );
@@ -51,7 +55,7 @@ export default class Today extends Component {
     expendedPart = () => {
         return (
             <View style={styles.container_expended_all}>
-                <Hr lineColor="rgba(255,255,255,0.15)" width={1} textPadding={0} text=" "/>
+                <Hr lineColor="rgba(255,255,255,0.15)" width={1} textPadding={0} text=""/>
 
                 <Text style={styles.title_extended}>EXTENDED FORECAST</Text>
 
@@ -63,7 +67,7 @@ export default class Today extends Component {
                             night</Text>
                     </View>
                 </View>
-                <Hr lineColor="rgba(255,255,255,0.15)" width={1} textPadding={0} text=" "/>
+                <Hr lineColor="rgba(255,255,255,0.15)" width={1} textPadding={0} text=""/>
             </View>
         );
     };
@@ -76,7 +80,7 @@ export default class Today extends Component {
                 <FlatList data={this.state.hourly_data} contentContainerStyle={styles.hourly_flat_list}
                           renderItem={({item}) => (
                               <View style={styles.container_hourly_flat_list}>
-                                  <View style={styles.item_hourly_list_temp}>
+                                  <View style={styles.item_hourly_list_name}>
                                       <Text style={styles.item_hourly_list_temp_txt}>{item.name}</Text>
                                   </View>
 
@@ -86,7 +90,7 @@ export default class Today extends Component {
                                                  source={item.img}/>
                                       </View>
                                       <View>
-                                          <Text style={styles.item_list_temp}>{item.temp}</Text>
+                                          <Text style={styles.item_hourly_list_temp}>{item.temp}</Text>
                                       </View>
                                   </View>
                               </View>)}
@@ -133,13 +137,31 @@ let styles = StyleSheet.create({
         justifyContent : 'center',
         flexDirection: 'row',
     },
-    item_hourly_list_temp: {},
+    item_hourly_list_name: {
+        color: "#E4EFFF",
+        fontSize : 16,
+    },
+    item_hourly_list_temp : {
+        paddingBottom : 15,
+        paddingLeft : 10,
+        textAlign: 'right',
+        fontSize: 20,
+        fontFamily: 'Roboto',
+        flex: 1,
+        color: '#FFF',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+
     item_hourly_list_temp_txt: {
+        color: "#E4EFFF",
+        opacity: 0.6,
         fontFamily : 'Roboto',
-        fontSize : 17,
-        color: 'rgba(255,255,255,0.65)',
+        fontWeight: 'normal',
+        fontSize : 14,
     },
     title_hourly: {
+        fontWeight: "300",
         paddingTop : 10,
         paddingBottom : 10,
         fontSize: 20,
@@ -171,20 +193,26 @@ let styles = StyleSheet.create({
     },
     text_extended: {
         fontSize: 16,
-        color: 'rgba(255,255,255,0.65)',
+        color: "#E4EFFF",
+        opacity: 0.6,
         fontFamily: 'Roboto',
     },
     title_extended: {
+        fontWeight: "500",
         marginVertical: 5,
         fontSize: 20,
         textAlign: 'center',
         color: colors.primaryGradientColorEndConst,
         fontFamily: 'Roboto',
     },
+    item_list_img_container : {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems : 'center',
+    },
     item_list_img: {
         maxWidth: 40,
         maxHeight: 40,
-        flex: 1,
     },
     item_list_name: {
         fontSize: 20,
@@ -192,14 +220,14 @@ let styles = StyleSheet.create({
         flex: 1,
         color: '#FFF',
     },
-    item_list_temp: {
-        paddingBottom : 15,
-        paddingLeft : 10,
-        textAlign: 'right',
+    item_list_temp_txt : {
         fontSize: 20,
         fontFamily: 'Roboto',
-        flex: 1,
         color: '#FFF',
+    },
+    item_list_temp: {
+        flex: 1,
+        alignItems: 'flex-end',
     },
     view_list: {
         paddingVertical: 10,

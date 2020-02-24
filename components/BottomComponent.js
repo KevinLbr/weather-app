@@ -73,22 +73,22 @@ export default class BottomComponent extends Component {
                             <TouchableOpacity
                                 style={this.state.active_tab == 1 ? styles.container_text_tab_active : styles.container_text_tab}
                                 onPress={() => this.changeActiveTab(1)}>
-                                <Text style={styles.text_tab}>Today</Text>
+                                <Text style={this.state.active_tab == 1 ? styles.text_tab_active : styles.text_tab}>Today</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={this.state.active_tab == 2 ? styles.container_text_tab_active : styles.container_text_tab}
                                 onPress={() => this.changeActiveTab(2)}>
-                                <Text style={styles.text_tab}>Forecast</Text>
+                                <Text style={this.state.active_tab == 2 ? styles.text_tab_active : styles.text_tab}>Forecast</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={this.state.active_tab == 3 ? styles.container_text_tab_active : styles.container_text_tab}
                                 onPress={() => this.changeActiveTab(3)}>
-                                <Text style={styles.text_tab}>Precipitation</Text>
+                                <Text style={this.state.active_tab == 3 ? styles.text_tab_active : styles.text_tab}>Precipitation</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={this.state.active_tab == 4 ? styles.container_text_tab_active : styles.container_text_tab}
                                 onPress={() => this.changeActiveTab(4)}>
-                                <Text style={styles.text_tab}>Radar</Text>
+                                <Text style={this.state.active_tab == 4 ? styles.text_tab_active : styles.text_tab}>Radar</Text>
                             </TouchableOpacity>
                         </View>
 
@@ -148,7 +148,13 @@ let styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    text_tab_active : {
+        fontFamily: "Roboto",
+        fontWeight: "500",
+        color: '#FFF',
+    },
     text_tab: {
+        fontFamily: "Roboto",
         color: '#FFF',
     },
     button: {

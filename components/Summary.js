@@ -103,7 +103,7 @@ class Summary extends React.Component {
                 <Animated.View style={{flex : this.state.flexMainComponent, height : this.state.flexMainComponentHeight}}>
                     <View style={styles.flex}>
                         <View style={styles.container_img}>
-                            <Image resizeMode='contain' style={styles.tmp_img} source={require('./images/cloud.png')}/>
+                            <Image resizeMode='contain' style={styles.tmp_img} source={require('./images/temp_main.png')}/>
                         </View>
 
                         <View style={styles.container_center}>
@@ -178,6 +178,7 @@ const styles = StyleSheet.create({
     },
     line_height: {
         lineHeight: 30,
+        fontFamily: 'Roboto',
     },
     name: {
         fontFamily: 'Roboto',
@@ -193,6 +194,8 @@ const styles = StyleSheet.create({
     },
     tmp: {
         fontSize: 130,
+        fontFamily: 'Roboto',
+        fontWeight: '300',
         textAlign: 'center',
     },
     container_btn: {
@@ -224,7 +227,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     text_variable_tmp: {
-        // paddingRight: 10
+        fontFamily: 'Roboto',
     },
     tint_img: {
         width: 15,
@@ -232,13 +235,12 @@ const styles = StyleSheet.create({
     },
     container_header: {
         height: 70,
-        // flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
     },
     btn: {
-        backgroundColor: colors.primaryGradientColorEndConst,
+        backgroundColor: "#F6D067",
         width: 50,
         height: 50,
         borderRadius: 100,
@@ -250,6 +252,5 @@ const styles = StyleSheet.create({
         elevation: 10,
     },
 });
-
 
 export default Summary;
