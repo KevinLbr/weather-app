@@ -6,6 +6,7 @@ export const colors = {
     thirdColorConst : '#E4EFFF',
     primaryGradientColorStartConst : '#FBA780',
     primaryGradientColorEndConst : '#FAA935',
+    primaryGradientColorEndConst2 : '#F6CF67',
 };
 
 const styles = StyleSheet.create({
