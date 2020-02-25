@@ -7,6 +7,12 @@ import {
     Text, FlatList, Image,
 } from 'react-native';
 
+import {
+    LineChart,
+} from "react-native-chart-kit";
+import { Dimensions } from "react-native";
+const screenWidth = Dimensions.get("window").width;
+
 import LinearGradient from 'react-native-linear-gradient';
 
 import stylesApp, {colors} from '../../Style';
@@ -28,7 +34,6 @@ export default class Forecast extends Component {
         }
     }
 
-
     render() {
         return (
             <View style={styles.view}>
@@ -49,6 +54,56 @@ export default class Forecast extends Component {
                                   </View>
                               </View>
                           )}
+                />
+
+                <LineChart
+                    data={{
+                        labels: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", 'Sat'],
+                        datasets: [
+                            {
+                                data: [
+                                    -4,
+                                    -3,
+                                    -5,
+                                    -4,
+                                    -3,
+                                    -3,
+                                    -4
+                                ]
+                            },
+
+                        ]
+                    }}
+                    width={Dimensions.get("window").width} // from react-native
+                    height={220}
+                    withVerticalLabels={true}
+                    withHorizontalLabels={false}
+                    withInnerLines={false}
+                    withOuterLines={false}
+                    yAxisInterval={5} // optional, defaults to 1
+                    xAxisInterval={5} // optional, defaults to 1
+                    chartConfig={{
+                        backgroundColor: colors.primaryColorConst,
+                        backgroundGradientFrom: colors.primaryColorConst,
+                        backgroundGradientTo: colors.primaryColorConst,
+                        decimalPlaces: 0, // optional, defaults to 2dp
+                        color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                        labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                        style: {
+                            borderRadius: 100,
+                        },
+                        propsForDots: {
+                            r: "6",
+                            strokeWidth: "2",
+                            stroke: colors.primaryColorConst,
+                        }
+                    }}
+                    decorator={(x, i) => {return ( <Text key={i}>Ok, x, y</Text>)}}
+                    bezier
+                    style={{
+                        marginVertical: 8,
+                        borderRadius: 0
+                    }}
                 />
             </View>
         );
