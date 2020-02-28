@@ -7,9 +7,8 @@ import {
     Text, FlatList, Image,
 } from 'react-native';
 
-import {
-    LineChart,
-} from 'react-native-chart-kit';
+import LineChart from 'react-native-responsive-linechart';
+
 import {Dimensions} from 'react-native';
 
 import {faChevronDown, faChevronUp} from '@fortawesome/free-solid-svg-icons';
@@ -28,6 +27,7 @@ export default class Forecast extends Component {
         super(props);
 
         this.state = {
+            days_data_num: [-4, -3, -3, -5, -2, 0, 4],
             days_data: [
                 {
                     width: 100,
@@ -202,56 +202,40 @@ export default class Forecast extends Component {
     };
 
     graphPart = () => {
+        const labels = ["SUN", "MON", "TUE", "WED", "THU", "FRY", "SAT"];
+
+        const config = {
+            interpolation: "spline",
+            line: { strokeColor: colors.primaryGradientColorEndConst2, strokeWidth: 4, },
+            area: {
+                gradientFrom: colors.primaryColorConst,
+                gradientFromOpacity: 1,
+                gradientTo: colors.primaryColorConst,
+                gradientToOpacity: 1,
+            },
+            yAxis: { visible: true },
+            xAxis: { visible: true },
+            grid: { stepSize: 1, visible: false, backgroundColor : 'transparent' },
+            backgroundColor : 'transparent',
+            dataPoint: {
+                visible: false,
+                color: "#777",
+                radius: 5,
+                label: {
+                    visible: true,
+                    labelFontSize: 12,
+                    labelColor: "#777",
+                    marginBottom: 25
+                }
+            },
+        };
+
         return (
             <View style={styles.container_linechart}>
-                <LineChart
-                    data={{
-                        labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-                        datasets: [
-                            {
-                                data: [
-                                    -4,
-                                    -3,
-                                    -5,
-                                    -4,
-                                    -3,
-                                    -3,
-                                    -4,
-                                ],
-                            },
+                <LineChart labels={labels} style={{height: 150, width : 300}} data={this.state.days_data_num} config={config}
 
-                        ],
-                    }}
-                    width={Dimensions.get('window').width} // from react-native
-                    height={220}
-                    withVerticalLabels={true}
-                    withHorizontalLabels={false}
-                    withInnerLines={false}
-                    withOuterLines={false}
-                    yAxisInterval={5} // optional, defaults to 1
-                    xAxisInterval={5} // optional, defaults to 1
-                    chartConfig={{
-                        backgroundColor: colors.primaryColorConst,
-                        backgroundGradientFrom: colors.primaryColorConst,
-                        backgroundGradientTo: colors.primaryColorConst,
-                        decimalPlaces: 0, // optional, defaults to 2dp
-                        color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                        labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                        style: {
-                            borderRadius: 100,
-                        },
-                        propsForDots: {
-                            r: '6',
-                            strokeWidth: '2',
-                            stroke: colors.primaryColorConst,
-                        },
-                    }}
-                    bezier
-                    style={{
-                        marginVertical: 8,
-                        borderRadius: 0,
-                    }}
                 />
+
             </View>
         );
     };
@@ -268,23 +252,24 @@ export default class Forecast extends Component {
     };
 
     weekDescriptionPart = (item) => {
-        if(item.key == this.state.openWeek){
+        if (item.key == this.state.openWeek) {
             return (
                 <View style={styles.week_container_description}>
                     <Text style={styles.week_description}>{item.description}</Text>
                 </View>
-            )
+            );
         }
-    }
+    };
 
     weekPart = () => {
         return (
             <View style={styles.container_week}>
                 <FlatList data={this.state.week_data} contentContainerStyle={styles.week_flat_list}
                           renderItem={({item}) => (
-                              <View >
+                              <View>
 
-                                  <TouchableOpacity onPress={() => this.openWeekContent(item.key)} style={styles.week_flat_list_container}>
+                                  <TouchableOpacity onPress={() => this.openWeekContent(item.key)}
+                                                    style={styles.week_flat_list_container}>
                                       <View style={styles.week_flat_list_container_left}>
                                           <Image resizeMode='contain'
                                                  style={styles.week_flat_list_img}
@@ -292,7 +277,8 @@ export default class Forecast extends Component {
 
                                           <View style={styles.week_container_text}>
                                               <Text style={styles.week_date}>Week of {item.date}</Text>
-                                              <Text style={styles.week_short_description}>{item.short_description}</Text>
+                                              <Text
+                                                  style={styles.week_short_description}>{item.short_description}</Text>
                                           </View>
                                       </View>
 
@@ -316,6 +302,7 @@ export default class Forecast extends Component {
         return (
             <View style={styles.view}>
                 {this.flatListPart()}
+                {this.props.bottomComponentIsOpen == true ? this.graphPart(): null}
                 {this.props.bottomComponentIsOpen == true ? this.helpPart() : null}
                 {this.props.bottomComponentIsOpen == true ? this.weekPart() : null}
             </View>
@@ -324,14 +311,14 @@ export default class Forecast extends Component {
 }
 
 let styles = StyleSheet.create({
-    week_description : {
+    week_description: {
         lineHeight: 21,
         color: '#FFF',
         fontFamily: 'Roboto',
     },
-    week_container_description : {
-      paddingVertical : 10,
-      paddingHorizontal : 30,
+    week_container_description: {
+        paddingVertical: 10,
+        paddingHorizontal: 30,
     },
     week_fa: {
         marginLeft: 10,
@@ -374,8 +361,10 @@ let styles = StyleSheet.create({
     },
     week_flat_list: {},
     container_linechart: {
-        //flex: 1,
-
+        // flex: 1,
+        justifyContent : 'center',
+        alignItems : 'center',
+        flexDirection : 'row'
     },
     container_week: {
         flex: 1,
