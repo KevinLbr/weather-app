@@ -6,6 +6,7 @@ import {
     TouchableHighlight,
     Text,
     FlatList,
+    ScrollView,
     Image,
 } from 'react-native';
 
@@ -108,13 +109,13 @@ export default class Today extends Component {
             );
         } else {
             return (
-                <View style={styles.view}>
+                <ScrollView style={styles.view}>
                     {this.mainPart()}
 
                     {this.expendedPart()}
 
                     {this.hourlyPart()}
-                </View>
+                </ScrollView>
             );
         }
     }

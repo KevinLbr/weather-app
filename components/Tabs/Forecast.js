@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {
     StyleSheet,
     View,
+    ScrollView,
     TouchableOpacity,
     TouchableHighlight,
     Text, FlatList, Image,
@@ -372,12 +373,12 @@ export default class Forecast extends Component {
 
     render() {
         return (
-            <View style={styles.view}>
+            <ScrollView style={styles.view}>
                 {this.flatListPart()}
                 {this.props.bottomComponentIsOpen == true ? this.graphPart(): null}
                 {this.props.bottomComponentIsOpen == true ? this.helpPart() : null}
                 {this.props.bottomComponentIsOpen == true ? this.weekPart() : null}
-            </View>
+            </ScrollView>
         );
     }
 }
