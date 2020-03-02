@@ -7,15 +7,17 @@ import {
     Text, FlatList, Image,
 } from 'react-native';
 
-import LineChart from 'react-native-responsive-linechart';
+// https://github.com/JesperLekland/react-native-svg-charts-examples/blob/master/storybook/stories/line-chart/with-gradient.js
+// https://github.com/JesperLekland/react-native-svg-charts#common-props
+import { LineChart, Grid, AreaChart } from 'react-native-svg-charts'
+import {Defs, Stop, LinearGradient, Circle, Path} from 'react-native-svg';
+import * as shape from 'd3-shape'
 
 import {Dimensions} from 'react-native';
 
 import {faChevronDown, faChevronUp} from '@fortawesome/free-solid-svg-icons';
 
-const screenWidth = Dimensions.get('window').width;
-
-import LinearGradient from 'react-native-linear-gradient';
+import LinearGradientBackground from 'react-native-linear-gradient';
 
 import stylesApp, {colors} from '../../Style';
 import Hr from 'react-native-hr-component';
@@ -189,9 +191,9 @@ export default class Forecast extends Component {
                                   <View style={styles.days_flat_list_name_temp_container}>
                                       <Text style={styles.days_flat_list_temp_min}>{item.temp_min}</Text>
                                       {/*  TODO */}
-                                      <LinearGradient start={{x: 1, y: 0}} end={{x: 0, y: 0}}
+                                      <LinearGradientBackground start={{x: 1, y: 0}} end={{x: 0, y: 0}}
                                                       colors={[colors.primaryGradientColorStartConst, colors.primaryGradientColorEndConst, colors.primaryGradientColorEndConst2, colors.primaryGradientColorEndConst2]}
-                                                      style={[styles.days_flat_list_bar, {width: item.width}]}></LinearGradient>
+                                                      style={[styles.days_flat_list_bar, {width: item.width}]}></LinearGradientBackground>
                                       <Text style={styles.days_flat_list_temp_max}>{item.temp_max}</Text>
                                   </View>
                               </View>
@@ -204,37 +206,55 @@ export default class Forecast extends Component {
     graphPart = () => {
         const labels = ["SUN", "MON", "TUE", "WED", "THU", "FRY", "SAT"];
 
-        const config = {
-            interpolation: "spline",
-            line: { strokeColor: colors.primaryGradientColorEndConst2, strokeWidth: 4, },
-            area: {
-                gradientFrom: colors.primaryColorConst,
-                gradientFromOpacity: 1,
-                gradientTo: colors.primaryColorConst,
-                gradientToOpacity: 1,
-            },
-            yAxis: { visible: true },
-            xAxis: { visible: true },
-            grid: { stepSize: 1, visible: false, backgroundColor : 'transparent' },
-            backgroundColor : 'transparent',
-            dataPoint: {
-                visible: false,
-                color: "#777",
-                radius: 5,
-                label: {
-                    visible: true,
-                    labelFontSize: 12,
-                    labelColor: "#777",
-                    marginBottom: 25
-                }
-            },
-        };
+        const data = [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80 ]
+
+        const Gradient = () => (
+            <Defs key={'gradient'}>
+                <LinearGradient id={'gradient'} x1={'0'} y={'0%'} x2={'100%'} y2={'0%'}>
+                    <Stop offset={'0%'} stopColor={colors.primaryGradientColorStartConst}/>
+                    <Stop offset={'100%'} stopColor={colors.primaryGradientColorEndConst}/>
+                </LinearGradient>
+            </Defs>
+        )
+
+        const Decorator = ({ x, y, data }) => {
+            return data.map((value, index) => (
+                <Circle
+                    key={ index }
+                    cx={ x(index) }
+                    cy={ y(value) }
+                    r={ 4 }
+                    stroke={ colors.primaryGradientColorStartConst }
+                    fill={ 'white' }
+                />
+            ))
+        }
+
+        const Line = ({ line }) => (
+            <Path
+                d={ line }
+                stroke={ colors.primaryGradientColorStartConst }
+                fill={ 'none' }
+            />
+        )
 
         return (
-            <View style={styles.container_linechart}>
-                <LineChart labels={labels} style={{height: 150, width : 300}} data={this.state.days_data_num} config={config}
-
-                />
+            <View >
+                <LineChart
+                    style={ { height: 200 } }
+                    data={ this.state.days_data_num }
+                    contentInset={ { top: 20, bottom: 20 } }
+                    svg={{
+                        strokeWidth: 2,
+                        stroke: 'url(#gradient)',
+                    }}
+                    curve={shape.curveCardinal}
+                >
+                    <Grid/>
+                    <Gradient/>
+                    <Line/>
+                    <Decorator/>
+                </LineChart>
 
             </View>
         );
