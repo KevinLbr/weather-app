@@ -9,8 +9,8 @@ import {
 
 // https://github.com/JesperLekland/react-native-svg-charts-examples/blob/master/storybook/stories/line-chart/with-gradient.js
 // https://github.com/JesperLekland/react-native-svg-charts#common-props
-import { LineChart, Grid, AreaChart } from 'react-native-svg-charts'
-import {Defs, Stop, LinearGradient, Circle, Path} from 'react-native-svg';
+import {LineChart, Grid, AreaChart, YAxis, XAxis} from 'react-native-svg-charts';
+import {Defs, Stop, LinearGradient, Circle, Path, Rect, G} from 'react-native-svg';
 import * as shape from 'd3-shape'
 
 import {Dimensions} from 'react-native';
@@ -29,7 +29,7 @@ export default class Forecast extends Component {
         super(props);
 
         this.state = {
-            days_data_num: [-4, -3, -3, -5, -2, 0, 4],
+            days_data_num: [-4, -3, -5, -4, -3, -3, -4],
             days_data: [
                 {
                     width: 100,
@@ -212,21 +212,28 @@ export default class Forecast extends Component {
             <Defs key={'gradient'}>
                 <LinearGradient id={'gradient'} x1={'0'} y={'0%'} x2={'100%'} y2={'0%'}>
                     <Stop offset={'0%'} stopColor={colors.primaryGradientColorStartConst}/>
-                    <Stop offset={'100%'} stopColor={colors.primaryGradientColorEndConst}/>
+                    <Stop offset={'50%'} stopColor={colors.primaryGradientColorEndConst}/>
+                    <Stop offset={'100%'} stopColor={colors.primaryGradientColorEndConst2}/>
                 </LinearGradient>
             </Defs>
         )
 
         const Decorator = ({ x, y, data }) => {
             return data.map((value, index) => (
-                <Circle
-                    key={ index }
-                    cx={ x(index) }
-                    cy={ y(value) }
-                    r={ 4 }
-                    stroke={ colors.primaryGradientColorStartConst }
-                    fill={ 'white' }
-                />
+                <G
+                    key={index}
+                    x={ x(index) - (5) }
+                    y={ y(value) - (40) }>
+                    <Text
+                        key={index}
+                        cx={ x(index) }
+                        cy={ y(value) }
+                        stroke={ '#FFF' }
+                        style={{color : '#FFF', fontFamily : 'Roboto', fontSize : 15}}
+                    >
+                        { `${data[index]}º` }
+                    </Text>
+                </G>
             ))
         }
 
@@ -238,24 +245,69 @@ export default class Forecast extends Component {
             />
         )
 
+        const Shadow = ({ line }) => (
+            <Path
+                key={'shadow'}
+                y={10}
+                d={line}
+                fill={'none'}
+                strokeWidth={5}
+                stroke={colors.primaryGradientColorStartConst}
+                opacity={0.1}
+            />
+        )
+
+        const CircleDecorator = ({ x, y, data }) => {
+            return data.map((value, index) => {
+                if(index == 0){
+                    return (
+                        <Circle
+                            key={ index }
+                            cx={ x(index) }
+                            cy={ y(value) }
+                            r={ 7 }
+                            stroke={ '#FFF'}
+                            strokeWidth={ 3}
+
+                            fill={ colors.primaryColorConst }
+                        />
+                    )
+                }
+            })
+        }
+
+        const capitalize = (s) => {
+            if (typeof s !== 'string') return ''
+            return s.charAt(0).toUpperCase() + s.slice(1)
+        }
+
+        const axesSvg = { fontSize: 12, fill: colors.secondaryColorConst };
+
         return (
-            <View >
+            <View style={{paddingHorizontal : 20}}>
                 <LineChart
-                    style={ { height: 200 } }
+                    style={ { height: 200,  } }
                     data={ this.state.days_data_num }
-                    contentInset={ { top: 20, bottom: 20 } }
+                    contentInset={ { top: 100, bottom: 50, left : 10, right : 20 } }
                     svg={{
-                        strokeWidth: 2,
+                        strokeWidth:5,
                         stroke: 'url(#gradient)',
                     }}
-                    curve={shape.curveCardinal}
+                    curve={shape.curveCatmullRom}
                 >
-                    <Grid/>
                     <Gradient/>
                     <Line/>
                     <Decorator/>
+                    <CircleDecorator/>
+                    <Shadow/>
                 </LineChart>
-
+                <XAxis
+                    style={{ marginHorizontal: -10, height: 30, color: colors.primaryColorConst }}
+                    data={this.state.days_data}
+                    formatLabel={(value, index) => capitalize(this.state.days_data[index].name.toLowerCase())}
+                    contentInset={{ left: 22, right: 20 }}
+                    svg={axesSvg}
+                />
             </View>
         );
     };
