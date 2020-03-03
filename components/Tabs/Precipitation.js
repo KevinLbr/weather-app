@@ -4,7 +4,7 @@ import {
     View,
     TouchableOpacity,
     TouchableHighlight,
-    Text, ScrollView,
+    ScrollView,
 } from 'react-native';
 
 import stylesApp, {colors} from '../../Style';
@@ -14,10 +14,11 @@ import moment from 'moment';
 // https://github.com/JesperLekland/react-native-svg-charts-examples/blob/master/storybook/stories/line-chart/with-gradient.js
 // https://github.com/JesperLekland/react-native-svg-charts#common-props
 import {LineChart, Grid, AreaChart, YAxis, XAxis, BarChart} from 'react-native-svg-charts';
-import {Defs, Stop, LinearGradient, Circle, Path, Rect, G} from 'react-native-svg';
+import {Defs, Stop, LinearGradient, Circle, Path, Rect, G, Text} from 'react-native-svg';
 import * as shape from 'd3-shape'
+import * as scale from 'd3-scale'
 
-export default class Precipitation extends Component {
+export default class Precipitation extends React.PureComponent {
     constructor(props) {
         super(props);
 
@@ -66,43 +67,67 @@ export default class Precipitation extends Component {
         const dateStart = moment().format('DD.MM');
         const dateEnd = moment().days(7).format('DD.MM');
 
-        const data = [ 10, 5, 25, 15, 20 ]
+        const data = [ 10, 5, 25, 15, 20, 6, 19 ]
 
-        const CUT_OFF = 20
+        const CUT_OFF = 100
         const Labels = ({ x, y, bandwidth, data }) => (
             data.map((value, index) => (
                 <Text
                     key={ index }
-                    x={ x(index) + (bandwidth / 2) }
+                    x={ x(index) + (bandwidth / 2) -5 }
                     y={ value < CUT_OFF ? y(value) - 10 : y(value) + 15 }
-                    fontSize={ 14 }
-                    fill={ value >= CUT_OFF ? 'white' : 'black' }
+                    fontSize={ 17 }
+                    fill={ value >= CUT_OFF ? 'white' : 'white' }
                     alignmentBaseline={ 'middle' }
                     textAnchor={ 'middle' }
                 >
-                    {value}
+                    {value}%
                 </Text>
             ))
         )
 
+        const Gradient = () => (
+            <Defs key={'gradient'}>
+                <LinearGradient id={'gradient'} x1={'0%'} y={'0%'} x2={'0%'} y2={'100%'}>
+                    <Stop offset={'0%'} stopColor={colors.primaryGradientColorEndConst2}/>
+                    <Stop offset={'80%'} stopColor={colors.primaryGradientColorEndConst}/>
+                    <Stop offset={'100%'} stopColor={colors.primaryGradientColorStartConst}/>
+                </LinearGradient>
+            </Defs>
+        )
+
         return (
-            <View style={{ height: 200, paddingVertical: 16 }}>
+            <View style={{ paddingVertical: 16, flex : 1}}>
+
+                {/* TODO ça veut plus s'afficher */}
                 <View style={styles.next_week_container_title}>
                     <Text style={styles.next_week_title}>Next week</Text>
                     <Text style={styles.next_week_date}>{dateStart} - {dateEnd}</Text>
                 </View>
 
-                <BarChart
-                    style={{ flex: 1 }}
-                    data={data}
-                    svg={{ fill: colors.primaryGradientColorStartConst }}
-                    contentInset={{ top: 10, bottom: 10 }}
-                    spacing={0.2}
-                    gridMin={0}
-                >
-                    <Grid direction={Grid.Direction.HORIZONTAL}/>
-                    <Labels/>
-                </BarChart>
+                <View style={{ height: 200,  }}>
+                    <BarChart
+                        style={{ flex: 1 }}
+                        data={data}
+                        svg={ {
+                            strokeWidth: 2,
+                            fill: 'url(#gradient)',
+                        }}
+                        contentInset={{ top: 20, bottom: 10 }}
+                        spacing={2.5}
+                        gridMin={0}
+                    >
+                        <Labels/>
+                        <Gradient/>
+                    </BarChart>
+                    <XAxis
+                        style={{ marginTop: 10 }}
+                        data={ this.state.days_data }
+                        scale={scale.scaleBand}
+                        formatLabel={ (value, index) => this.state.days_data[index].name }
+                        labelStyle={ { color: colors.secondaryColorConst, opacity : 0.8 } }
+                    />
+                </View>
             </View>
         );
     };
