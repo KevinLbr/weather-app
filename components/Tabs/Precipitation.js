@@ -88,8 +88,12 @@ export default class Precipitation extends React.PureComponent {
         )
 
         const Gradient = () => (
-            <Defs key={'gradient'}>
-                <LinearGradient id={'gradient'} x1={'0%'} y={'0%'} x2={'0%'} y2={'100%'}>
+            <Defs key={'gradient'}  outerRadius={80}
+                  innerRadius={80}
+                  cornerRadius={50}>
+                <LinearGradient id={'gradient'} x1={'0%'} y={'0%'} x2={'0%'} y2={'100%'} outerRadius={80}
+                                innerRadius={80}
+                                cornerRadius={50}>
                     <Stop offset={'0%'} stopColor={colors.primaryGradientColorEndConst2}/>
                     <Stop offset={'80%'} stopColor={colors.primaryGradientColorEndConst}/>
                     <Stop offset={'100%'} stopColor={colors.primaryGradientColorStartConst}/>
@@ -99,8 +103,6 @@ export default class Precipitation extends React.PureComponent {
 
         return (
             <View style={{ paddingVertical: 16,}}>
-
-                {/* TODO ça veut plus s'afficher */}
                 <View style={styles.next_week_container_title}>
                     <Text style={styles.next_week_title}>Next week</Text>
                     <Text style={styles.next_week_date}>{dateStart} - {dateEnd}</Text>
@@ -109,25 +111,30 @@ export default class Precipitation extends React.PureComponent {
                 <View style={{flex : 1}}>
                     <View style={{ height: 200,  }}>
                         <BarChart
-                            style={{ flex: 1 }}
+                            style={{ flex: 1, radius: 10}}
                             data={data}
                             svg={ {
-                                strokeWidth: 2,
+                                strokeWidth: 1,
                                 fill: 'url(#gradient)',
                             }}
                             contentInset={{ top: 20, bottom: 10 }}
-                            spacing={2.5}
+                            scale={scale.scaleBand}
+                            spacingInner={0.5}
+                            radius={10}
                             gridMin={0}
                         >
                             <Labels/>
                             <Gradient/>
                         </BarChart>
                         <XAxis
-                            style={{ marginTop: 10 }}
+                            style={{ marginTop: 10, opacity : 0.8,}}
                             data={ this.state.days_data }
                             scale={scale.scaleBand}
                             formatLabel={ (value, index) => this.state.days_data[index].name }
-                            labelStyle={ { color: colors.secondaryColorConst, opacity : 0.8 } }
+                            svg={{
+                                fontSize: 13,
+                                fill: colors.secondaryColorConst
+                            }}
                         />
                     </View>
                 </View>
