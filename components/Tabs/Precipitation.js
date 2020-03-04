@@ -4,6 +4,7 @@ import {
     View,
     TouchableOpacity,
     TouchableHighlight,
+    Text,
     ScrollView,
 } from 'react-native';
 
@@ -14,7 +15,7 @@ import moment from 'moment';
 // https://github.com/JesperLekland/react-native-svg-charts-examples/blob/master/storybook/stories/line-chart/with-gradient.js
 // https://github.com/JesperLekland/react-native-svg-charts#common-props
 import {LineChart, Grid, AreaChart, YAxis, XAxis, BarChart} from 'react-native-svg-charts';
-import {Defs, Stop, LinearGradient, Circle, Path, Rect, G, Text} from 'react-native-svg';
+import {Defs, Stop, LinearGradient, Circle, Path, Rect, G, Text as TextLabel} from 'react-native-svg';
 import * as shape from 'd3-shape'
 import * as scale from 'd3-scale'
 
@@ -72,7 +73,7 @@ export default class Precipitation extends React.PureComponent {
         const CUT_OFF = 100
         const Labels = ({ x, y, bandwidth, data }) => (
             data.map((value, index) => (
-                <Text
+                <TextLabel
                     key={ index }
                     x={ x(index) + (bandwidth / 2) -5 }
                     y={ value < CUT_OFF ? y(value) - 10 : y(value) + 15 }
@@ -82,7 +83,7 @@ export default class Precipitation extends React.PureComponent {
                     textAnchor={ 'middle' }
                 >
                     {value}%
-                </Text>
+                </TextLabel>
             ))
         )
 
@@ -97,7 +98,7 @@ export default class Precipitation extends React.PureComponent {
         )
 
         return (
-            <View style={{ paddingVertical: 16, flex : 1}}>
+            <View style={{ paddingVertical: 16,}}>
 
                 {/* TODO ça veut plus s'afficher */}
                 <View style={styles.next_week_container_title}>
@@ -105,28 +106,30 @@ export default class Precipitation extends React.PureComponent {
                     <Text style={styles.next_week_date}>{dateStart} - {dateEnd}</Text>
                 </View>
 
-                <View style={{ height: 200,  }}>
-                    <BarChart
-                        style={{ flex: 1 }}
-                        data={data}
-                        svg={ {
-                            strokeWidth: 2,
-                            fill: 'url(#gradient)',
-                        }}
-                        contentInset={{ top: 20, bottom: 10 }}
-                        spacing={2.5}
-                        gridMin={0}
-                    >
-                        <Labels/>
-                        <Gradient/>
-                    </BarChart>
-                    <XAxis
-                        style={{ marginTop: 10 }}
-                        data={ this.state.days_data }
-                        scale={scale.scaleBand}
-                        formatLabel={ (value, index) => this.state.days_data[index].name }
-                        labelStyle={ { color: colors.secondaryColorConst, opacity : 0.8 } }
-                    />
+                <View style={{flex : 1}}>
+                    <View style={{ height: 200,  }}>
+                        <BarChart
+                            style={{ flex: 1 }}
+                            data={data}
+                            svg={ {
+                                strokeWidth: 2,
+                                fill: 'url(#gradient)',
+                            }}
+                            contentInset={{ top: 20, bottom: 10 }}
+                            spacing={2.5}
+                            gridMin={0}
+                        >
+                            <Labels/>
+                            <Gradient/>
+                        </BarChart>
+                        <XAxis
+                            style={{ marginTop: 10 }}
+                            data={ this.state.days_data }
+                            scale={scale.scaleBand}
+                            formatLabel={ (value, index) => this.state.days_data[index].name }
+                            labelStyle={ { color: colors.secondaryColorConst, opacity : 0.8 } }
+                        />
+                    </View>
                 </View>
             </View>
         );
@@ -143,8 +146,6 @@ export default class Precipitation extends React.PureComponent {
                     <Text style={styles.next_week_title}>{month}</Text>
                     <Text style={styles.next_week_date}>{dateStart} - {dateEnd}</Text>
                 </View>
-
-
             </View>
         );
     };
