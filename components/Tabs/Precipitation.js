@@ -68,9 +68,9 @@ export default class Precipitation extends React.PureComponent {
         const dateStart = moment().format('DD.MM');
         const dateEnd = moment().days(7).format('DD.MM');
 
-        const data = [ 10, 5, 25, 15, 20, 6, 19 ]
+        const data = [ 10, 5, 50, 15, 84, 73, 19 ]
 
-        const CUT_OFF = 100
+        const CUT_OFF = 100;
         const Labels = ({ x, y, bandwidth, data }) => (
             data.map((value, index) => (
                 <TextLabel
@@ -88,12 +88,8 @@ export default class Precipitation extends React.PureComponent {
         )
 
         const Gradient = () => (
-            <Defs key={'gradient'}  outerRadius={80}
-                  innerRadius={80}
-                  cornerRadius={50}>
-                <LinearGradient id={'gradient'} x1={'0%'} y={'0%'} x2={'0%'} y2={'100%'} outerRadius={80}
-                                innerRadius={80}
-                                cornerRadius={50}>
+            <Defs key={'gradient'}>
+                <LinearGradient id={'gradient'} x1={'0%'} y={'0%'} x2={'0%'} y2={'100%'}>
                     <Stop offset={'0%'} stopColor={colors.primaryGradientColorEndConst2}/>
                     <Stop offset={'80%'} stopColor={colors.primaryGradientColorEndConst}/>
                     <Stop offset={'100%'} stopColor={colors.primaryGradientColorStartConst}/>
@@ -102,26 +98,27 @@ export default class Precipitation extends React.PureComponent {
         )
 
         return (
-            <View style={{ paddingVertical: 16,}}>
+            <View style={{ paddingVertical: 16}}>
                 <View style={styles.next_week_container_title}>
                     <Text style={styles.next_week_title}>Next week</Text>
                     <Text style={styles.next_week_date}>{dateStart} - {dateEnd}</Text>
                 </View>
 
                 <View style={{flex : 1}}>
-                    <View style={{ height: 200,  }}>
+                    <View style={{ height: 200}}>
                         <BarChart
-                            style={{ flex: 1, radius: 10}}
+                            style={{ flex: 1}}
                             data={data}
                             svg={ {
                                 strokeWidth: 1,
                                 fill: 'url(#gradient)',
                             }}
-                            contentInset={{ top: 20, bottom: 10 }}
+                            contentInset={{ top: 20, bottom: 10, left:10, right:10}}
                             scale={scale.scaleBand}
                             spacingInner={0.5}
                             radius={10}
                             gridMin={0}
+                            gridMax={100}
                         >
                             <Labels/>
                             <Gradient/>
