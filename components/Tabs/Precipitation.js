@@ -144,12 +144,93 @@ export default class Precipitation extends React.PureComponent {
         const dateEnd = moment().days(30).format('DD.MM');
         const month = moment().format('MMMM YYYY');
 
+        const data1 = [ 50, 10, 40, 95];
+        const data2 = [ 30, 60, 35, 66];
+
+        const data = [
+            {
+                data: data1,
+                svg :{ stroke: colors.secondaryColorConst, strokeWidth: 3}
+            },
+            {
+                data: data2,
+                svg :{ stroke: colors.primaryGradientColorStartConst, strokeWidth: 3}
+            },
+        ]
+
+        const ShadowData1 = ({lines}) => {
+            return (
+                <Path
+                    key={'shadow'}
+                    y={5}
+                    d={lines[0]}
+                    fill={'none'}
+                    strokeWidth={4}
+                    stroke={colors.secondaryColorConst}
+                    opacity={0.2}
+                />
+            )
+        }
+
+        const ShadowData2 = ({lines}) => {
+            return (
+                <Path
+                    key={'shadow'}
+                    y={5}
+                    d={lines[1]}
+                    fill={'none'}
+                    strokeWidth={4}
+                    stroke={colors.primaryGradientColorStartConst}
+                    opacity={0.2}
+                />
+            )
+        }
+
+        const DecoratorData1 = ({ x, y, data }) => {
+            return data[0].data.map((value, index) => (
+                <Circle
+                    key={ index }
+                    cx={ x(index) }
+                    cy={ y(value) }
+                    r={ 6 }
+                    stroke={ '#FFF' }
+                    strokeWidth={ 3 }
+                    fill={ colors.primaryColorConst }
+                />
+            ))
+        }
+
+        const DecoratorData2 = ({ x, y, data }) => {
+            return data[1].data.map((value, index) => (
+                <Circle
+                    key={ index }
+                    cx={ x(index) }
+                    cy={ y(value) }
+                    r={ 6 }
+                    stroke={ '#FFF' }
+                    strokeWidth={ 3 }
+                    fill={ colors.primaryColorConst }
+                />
+            ))
+        }
+
         return (
-            <View>
+            <View style={{paddingTop : 30}}>
                 <View style={styles.next_week_container_title}>
                     <Text style={styles.next_week_title}>{month}</Text>
                     <Text style={styles.next_week_date}>{dateStart} - {dateEnd}</Text>
                 </View>
+
+                <LineChart
+                    style={ { height: 200 } }
+                    data={ data }
+                    contentInset={ { top: 20, bottom: 20, left : 20, right : 20 } }
+                >
+                    <DecoratorData1/>
+                    <DecoratorData2/>
+                    <ShadowData1/>
+                    <ShadowData2/>
+                </LineChart>
             </View>
         );
     };
