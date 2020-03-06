@@ -191,7 +191,6 @@ export default class Forecast extends Component {
 
                                   <View style={styles.days_flat_list_name_temp_container}>
                                       <Text style={styles.days_flat_list_temp_min}>{item.temp_min}</Text>
-                                      {/*  TODO */}
                                       <LinearGradientBackground start={{x: 1, y: 0}} end={{x: 0, y: 0}}
                                                       colors={[colors.primaryGradientColorStartConst, colors.primaryGradientColorEndConst, colors.primaryGradientColorEndConst2, colors.primaryGradientColorEndConst2]}
                                                       style={[styles.days_flat_list_bar, {width: item.width}]}></LinearGradientBackground>
@@ -507,7 +506,6 @@ let styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'center',
-
     },
     info: {
         marginRight: 10,
