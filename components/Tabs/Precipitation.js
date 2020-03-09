@@ -218,7 +218,26 @@ export default class Precipitation extends React.PureComponent {
             ));
         };
 
-        const axesSvg = {fontSize: 10, fill: 'grey'};
+        const weeks = [
+            {
+                index: 0,
+                label: "1st week",
+            },
+            {
+                index: 1,
+                label: "2nd week",
+            },
+            {
+                index: 2,
+                label: "3rd week",
+            },
+            {
+                index: 3,
+                label: "4th week",
+            },
+        ]
+
+        const axesSvg = {fontSize: 10, fill: colors.secondaryColorConst, opacity : 0.8};
         const verticalContentInset = {top: 10, bottom: 10};
         const xAxisHeight = 30;
 
@@ -229,12 +248,6 @@ export default class Precipitation extends React.PureComponent {
                     <Text style={styles.next_week_date}>{dateStart} - {dateEnd}</Text>
                 </View>
 
-                <YAxis
-                    data={data1}
-                    style={{marginBottom: xAxisHeight}}
-                    contentInset={verticalContentInset}
-                    svg={axesSvg}
-                />
                 <LineChart
                     style={{height: 200}}
                     data={data}
@@ -248,9 +261,9 @@ export default class Precipitation extends React.PureComponent {
                 </LineChart>
                 <XAxis
                     style={{marginHorizontal: -10, height: xAxisHeight}}
-                    data={data1}
-                    formatLabel={(value, index) => index}
-                    contentInset={{left: 10, right: 10}}
+                    data={weeks}
+                    formatLabel={(index, label) => weeks[index].label}
+                    contentInset={{left: 25, right: 25}}
                     svg={axesSvg}
                 />
             </View>
