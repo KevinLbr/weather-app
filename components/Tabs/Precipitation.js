@@ -242,14 +242,14 @@ export default class Precipitation extends React.PureComponent {
         const xAxisHeight = 30;
 
         return (
-            <View style={{paddingTop: 30}}>
+            <View style={{paddingTop: 50}}>
                 <View style={styles.next_week_container_title}>
                     <Text style={styles.next_week_title}>{month}</Text>
                     <Text style={styles.next_week_date}>{dateStart} - {dateEnd}</Text>
                 </View>
 
                 <LineChart
-                    style={{height: 200}}
+                    style={{height: 200, paddingTop: 30}}
                     data={data}
                     contentInset={{top: 20, bottom: 20, left: 20, right: 20}}
                 >
