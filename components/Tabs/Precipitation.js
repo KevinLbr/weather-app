@@ -237,7 +237,7 @@ export default class Precipitation extends React.PureComponent {
             },
         ]
 
-        const axesSvg = {fontSize: 10, fill: colors.secondaryColorConst, opacity : 0.8};
+        const axesSvg = {fontSize: 13, fill: colors.secondaryColorConst, opacity : 0.8};
         const verticalContentInset = {top: 10, bottom: 10};
         const xAxisHeight = 30;
 
@@ -263,7 +263,7 @@ export default class Precipitation extends React.PureComponent {
                     style={{marginHorizontal: -10, height: xAxisHeight}}
                     data={weeks}
                     formatLabel={(index, label) => weeks[index].label}
-                    contentInset={{left: 25, right: 25}}
+                    contentInset={{left: 30, right: 30}}
                     svg={axesSvg}
                 />
             </View>
