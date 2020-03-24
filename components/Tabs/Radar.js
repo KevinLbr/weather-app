@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {
     StyleSheet,
     View,
+    ActivityIndicator,
     TouchableOpacity,
     TouchableHighlight,
     Text,
@@ -16,40 +17,48 @@ export default class Radar extends Component {
     }
 
     render() {
-        if(this.props.bottomComponentIsOpen == true){
-            return (
-                <View style={styles.view}>
-                    <View style={styles.container}>
-                        <MapView
-                            style={styles.map}
-                            initialRegion={{
-                                latitude: 37.78825,
-                                longitude: -122.4324,
-                                latitudeDelta: 0.0922,
-                                longitudeDelta: 0.0421,
-                            }}
+        if(this.props.animateStart == false){
+            if(this.props.bottomComponentIsOpen == true){
+                return (
+                    <View style={styles.view}>
+                        <View style={styles.container}>
+                            <MapView
+                                style={styles.map}
+                                initialRegion={{
+                                    latitude: 37.78825,
+                                    longitude: -122.4324,
+                                    latitudeDelta: 0.0922,
+                                    longitudeDelta: 0.0421,
+                                }}
 
-                        >
-                        </MapView>
+                            >
+                            </MapView>
+                        </View>
                     </View>
-                </View>
-            );
+                );
+            } else {
+                return (
+                    <View style={styles.view}>
+                        <View style={styles.container}>
+                            <MapView
+                                style={styles.map}
+                                initialRegion={{
+                                    latitude: 37.78825,
+                                    longitude: -122.4324,
+                                    latitudeDelta: 0.0922,
+                                    longitudeDelta: 0.0421,
+                                }}
+                            />
+                        </View>
+                    </View>
+                );
+            }
         } else {
             return (
                 <View style={styles.view}>
-                    <View style={styles.container}>
-                        <MapView
-                            style={styles.map}
-                            initialRegion={{
-                                latitude: 37.78825,
-                                longitude: -122.4324,
-                                latitudeDelta: 0.0922,
-                                longitudeDelta: 0.0421,
-                            }}
-                        />
-                    </View>
+                    <ActivityIndicator size="large" color="#FFF"/>
                 </View>
-            );
+            )
         }
     }
 }
@@ -57,8 +66,8 @@ export default class Radar extends Component {
 let styles = StyleSheet.create({
     view : {
         flex : 1,
-        // justifyContent : 'center',
-        // alignItems : 'center',
+        justifyContent : 'center',
+        alignItems : 'center',
     } ,
     text : {
         color : 'white',

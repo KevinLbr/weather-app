@@ -96,7 +96,7 @@ export default class BottomComponent extends Component {
                             {this.state.active_tab == 1 ? <Today bottomComponentIsOpen={this.props.bottomComponentIsOpen}></Today> : null}
                             {this.state.active_tab == 2 ? <Forecast bottomComponentIsOpen={this.props.bottomComponentIsOpen}></Forecast> : null}
                             {this.state.active_tab == 3 ? <Precipitation bottomComponentIsOpen={this.props.bottomComponentIsOpen}></Precipitation> : null}
-                            {this.state.active_tab == 4 ? <Radar bottomComponentIsOpen={this.props.bottomComponentIsOpen}></Radar> : null}
+                            {this.state.active_tab == 4 ? <Radar bottomComponentIsOpen={this.props.bottomComponentIsOpen} animateStart={this.props.animateStart}></Radar> : null}
                         </View>
                     </View>
                 </View>

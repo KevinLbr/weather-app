@@ -27,6 +27,7 @@ class Summary extends React.Component {
         super(props);
 
         this.state = {
+            animateStart : false,
             bottomComponentIsOpen : false,
             flexMainComponent : new Animated.Value(0),
             flexMainComponentHeight : new Animated.Value(0),
@@ -60,7 +61,10 @@ class Summary extends React.Component {
     };
 
     toggleBottomComponent = () => {
-        this.setState({bottomComponentIsOpen : this.state.bottomComponentIsOpen == true ? false : true});
+        this.setState({
+            animateStart : true,
+            bottomComponentIsOpen : this.state.bottomComponentIsOpen == true ? false : true,
+        });
 
         var flex = this.state.bottomComponentIsOpen ? 1 : 0;
         var height = this.state.bottomComponentIsOpen ? 0 : 1;
@@ -79,7 +83,11 @@ class Summary extends React.Component {
                 toValue: height,
                 duration: 500,
             },
-        ).start();
+        ).start(() => {
+            this.setState({
+                animateStart : false,
+            });
+        });
     }
 
     render() {
@@ -140,6 +148,7 @@ class Summary extends React.Component {
                 </Animated.View>
 
                 <BottomComponent
+                    animateStart={this.state.animateStart}
                     toggleBottomComponent={this.toggleBottomComponent}
                     bottomComponentIsOpen={this.state.bottomComponentIsOpen}>
                 </BottomComponent>
